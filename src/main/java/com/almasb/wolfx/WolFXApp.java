@@ -157,6 +157,17 @@ public class WolFXApp extends GameApplication {
     }
 
     @Override
+    protected void initUI() {
+        var text = getUIFactoryService().newText("Controls:\n" +
+                        "WASD - Move\n" +
+                        "Move mouse - Rotate Camera\n" +
+                        "L - Exit game",
+                Color.BLACK, 24.0);
+
+        addUINode(text, 50, 50);
+    }
+
+    @Override
     protected void onUpdate(double tpf) {
         // TODO: tmp hack until FXGL provides public API to recalc direction3D
         player.getTransformComponent().lookAt(cameraTransform.getPosition3D().add(cameraTransform.getDirection3D().multiply(50)));
