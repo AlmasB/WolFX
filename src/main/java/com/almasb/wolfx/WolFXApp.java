@@ -1,13 +1,20 @@
 package com.almasb.wolfx;
 
+import com.almasb.fxgl.animation.AnimatedValue;
+import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.Camera3D;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.TransformComponent;
 import com.almasb.fxgl.pathfinding.maze.Maze;
+import com.almasb.fxgl.ui.FontType;
+import com.almasb.wolfx.ui.Bar;
+import com.almasb.wolfx.ui.BulletSymbol;
+import javafx.geometry.Pos;
 import javafx.scene.PointLight;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -30,9 +37,9 @@ public class WolFXApp extends GameApplication {
     protected void initSettings(GameSettings settings) {
         settings.setWidth(1280);
         settings.setHeight(720);
-        settings.setExperimental3D(true);
-        settings.setFullScreenAllowed(true);
-        settings.setFullScreenFromStart(true);
+        settings.set3D(true);
+//        settings.setFullScreenAllowed(true);
+//        settings.setFullScreenFromStart(true);
     }
 
     @Override
@@ -164,7 +171,38 @@ public class WolFXApp extends GameApplication {
                         "L - Exit game",
                 Color.BLACK, 24.0);
 
-        addUINode(text, 50, 50);
+        //addUINode(text, 50, 50);
+
+        var hpBar = new Bar(300, 15, Color.LIGHTGREEN);
+        hpBar.setValue(90);
+
+        var armorBar = new Bar(300, 15, Color.BLUE);
+        armorBar.setValue(40);
+
+        addUINode(armorBar, 25, getAppHeight() - 70);
+        addUINode(hpBar, 25, getAppHeight() - 50);
+
+        var bulletsText = getUIFactoryService().newText("42", Color.WHITE, FontType.UI, 26.0);
+        bulletsText.setStroke(Color.BLACK);
+
+        var symbol = new BulletSymbol();
+        symbol.setFill(Color.WHITE);
+        symbol.setStroke(Color.BLACK);
+
+        var bullets = new HBox(5, symbol, bulletsText);
+        bullets.setAlignment(Pos.TOP_CENTER);
+
+        addUINode(bullets, 25, getAppHeight() - 110);
+
+        animationBuilder()
+                .repeatInfinitely()
+                .autoReverse(true)
+                .interpolator(Interpolators.EXPONENTIAL.EASE_OUT())
+                .animate(new AnimatedValue<>(0.0, 100.0))
+                .onProgress(value -> {
+                    hpBar.setValue(value);
+                })
+                .buildAndPlay();
     }
 
     @Override
