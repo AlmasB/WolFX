@@ -171,7 +171,7 @@ public class WolFXApp extends GameApplication {
                         "L - Exit game",
                 Color.BLACK, 24.0);
 
-        //addUINode(text, 50, 50);
+        addUINode(text, 50, 50);
 
         var hpBar = new Bar(300, 15, Color.LIGHTGREEN);
         hpBar.setValue(90);
