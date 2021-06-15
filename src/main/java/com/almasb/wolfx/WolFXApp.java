@@ -207,7 +207,7 @@ public class WolFXApp extends GameApplication {
 
     @Override
     protected void onUpdate(double tpf) {
-        // TODO: tmp hack until FXGL provides public API to recalc direction3D
+        // TODO: tmp hack until https://github.com/AlmasB/FXGL/issues/924 is fixed
         player.getTransformComponent().lookAt(cameraTransform.getPosition3D().add(cameraTransform.getDirection3D().multiply(50)));
     }
 

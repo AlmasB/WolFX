@@ -1,12 +1,10 @@
 package com.almasb.wolfx;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.EntityGroup;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.entity.components.TransformComponent;
-import kotlin.Unit;
 
-import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 
 /**
  * @author Almas Baimagambetov (almaslvl@gmail.com)
@@ -59,15 +57,12 @@ public class PlayerComponent extends Component {
         for (int i = 0; i < numIterations; i++) {
             moveFunc.run();
 
-            // TODO: improve API for Java calls
             collidables.forEach(e -> {
                 if (!isColliding) {
                     if (e.isColliding(entity)) {
                         isColliding = true;
                     }
                 }
-
-                return Unit.INSTANCE;
             });
 
             if (isColliding) {
